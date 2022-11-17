@@ -1,0 +1,105 @@
+<div fxLayout="column" fxLayoutAlign="start center">
+  <div class="demo-div-container">
+    <mat-card>
+      <mat-card-header>
+        <div mat-card-avatar>
+          <!-- <img src="{{origin}}/api/users/profile-image/{{user.profileImage}}" class="header-image"> -->
+        </div>
+        <mat-card-title>{{user.username}}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>Username: {{user.username}}</p>
+        <p>Role: {{user.roles.toString()}}</p>
+      </mat-card-content>
+      <button mat-menu-item routerLink="/users/update/self" *ngIf="isManagmentShown&&isSelfPrifile">
+        <span>Update</span>
+      </button>
+      <button mat-menu-item *ngIf="isManagmentShown&&!isSelfPrifile" (click)="redirectToAdminUserUpdate()">
+        <span>Update</span>
+      </button>
+      <button *ngIf="isNotDeleteble()" mat-menu-item (click)="deleteUser()">
+        <span>Delete</span>
+      </button>
+    </mat-card>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="center start">
+    <div class="demo-div-container-small" *ngIf="isUser">
+      <mat-card>
+        <mat-card-content>
+          <h2>Teams</h2>
+          <table mat-table [dataSource]="teamDatasource" class="mat-elevation-z8 demo-table">
+            <ng-container matColumnDef="demo-name">
+              <th mat-header-cell *matHeaderCellDef> Name </th>
+              <td mat-cell *matCellDef="let element">
+                <button mat-raised-button class="table-button" color="primary"
+                  routerLink="{{'/teams/'+element.id}}">{{element.name}}</button>
+              </td>
+            </ng-container>
+  
+            <ng-container matColumnDef="managment"  *ngIf="isManagmentShown">
+              <th mat-header-cell *matHeaderCellDef> Managment </th>
+              <td mat-cell *matCellDef="let element">
+                <button dimat-raised-button class="table-button" color="primary" (click)="leaveTeam(element)">Leave
+                  team</button>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="demo-div-container-small" *ngIf="isLead">
+      <mat-card>
+        <mat-card-content>
+          <h2>Leading teams</h2>
+          <table mat-table [dataSource]="leadingTeamDatasource" class="mat-elevation-z8 demo-table">
+            <!-- Name Column -->
+            <ng-container matColumnDef="demo-name">
+              <th mat-header-cell *matHeaderCellDef> Name </th>
+              <td mat-cell *matCellDef="let element">
+                <button mat-raised-button class="table-button" color="primary"
+                  routerLink="{{'/teams/'+element.id}}">{{element.name}}</button>
+              </td>
+            </ng-container>
+  
+            <ng-container matColumnDef="managment" *ngIf="isManagmentShown">
+              <th mat-header-cell *matHeaderCellDef> Managment </th>
+              <td mat-cell *matCellDef="let element">
+                <button dimat-raised-button class="table-button" color="primary" (click)="leaveLeadingTeam(element)">Leave
+                  team</button>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="demo-div-container-small" *ngIf="isSelfPrifile||isAdminView">
+      <mat-card>
+        <mat-card-content>
+          <h2>Results</h2>
+          <table mat-table [dataSource]="resultDatasource" class="mat-elevation-z8 demo-table">
+            <!-- Name Column -->
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef> Name </th>
+              <td mat-cell *matCellDef="let element">
+                <button mat-raised-button class="table-button" color="primary"
+                  routerLink="{{'/results/'+element.id}}">{{element.name}}</button>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="result">
+              <th mat-header-cell *matHeaderCellDef> Result </th>
+              <td mat-cell *matCellDef="let element">
+                {{element.result}}
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="resultDisplayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: resultDisplayedColumns;"></tr>
+          </table>
+        </mat-card-content>
+      </mat-card> 
+    </div>
+  </div>
+</div>

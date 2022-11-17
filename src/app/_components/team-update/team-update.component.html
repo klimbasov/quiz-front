@@ -1,0 +1,111 @@
+<div fxLayout="column" fxLayoutAlign="center center">
+  <div class="demo-div-container">
+    <mat-card>
+      <mat-card-content>
+        <form #teamForm="ngForm" (ngSubmit)="onSubmit()">
+          <h2>User update form</h2>
+          <mat-form-field>
+            <label for="power">Name </label>
+            <input matInput [(ngModel)]="team.name" name="name">
+            <mat-error>
+              Please provide a valid username
+            </mat-error>
+          </mat-form-field>
+          <button mat-raised-button color="primary" [disabled]="!teamForm.form.valid">Submit</button>
+        </form>
+      </mat-card-content>
+    </mat-card><!-- team main form -->
+  </div>
+  <div fxLayout="row" fxLayoutAlign="space-betweenstart" class="demo-div-container">
+    <div fxLayout="column" fxLayoutAlign="start center" fxFlex="50%">
+      <mat-card>
+        <mat-card-content>
+          <form #userForm="ngForm" (ngSubmit)="attachUser()">
+            <h2>Attach user</h2>
+            <span *ngIf="hasUserAttachmentFaild">
+              Provide an existing username
+            </span>
+            <mat-form-field>
+              <label for="power">Username </label>
+              <input matInput [(ngModel)]="userUsernameToAttach" name="name">
+            </mat-form-field>
+            <button mat-raised-button color="primary" [disabled]="!userForm.form.valid">Submit</button>
+          </form>
+        </mat-card-content>
+      </mat-card><!-- users form -->
+      <mat-card>
+        <mat-card-content>
+          <table mat-table [dataSource]="userTableDatasource" class="mat-elevation-z8 demo-table">
+            <ng-container matColumnDef="demo-id">
+              <th mat-header-cell *matHeaderCellDef> Id </th>
+              <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+            </ng-container>
+            <ng-container matColumnDef="demo-name">
+              <th mat-header-cell *matHeaderCellDef> Name </th>
+              <td mat-cell *matCellDef="let element">
+                <button mat-raised-button class="mat-button" color="primary"
+                  routerLink="{{'/admin/users/profile/'+element.id}}">{{element.username}}
+                </button>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="managment">
+              <th mat-header-cell *matHeaderCellDef> Managment </th>
+              <td mat-cell *matCellDef="let element">
+                <button dimat-raised-button class="mat-button" color="primary"
+                  (click)="detachUser(element.id)">Delete</button>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedUserColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedUserColumns;"></tr>
+          </table>
+        </mat-card-content>
+      </mat-card><!-- users table -->
+    </div>
+    <div fxLayout="column" fxLayoutAlign="start center" fxFlex="50%">
+      <mat-card>
+        <mat-card-content>
+          <form #leadForm="ngForm" (ngSubmit)="attachLead()">
+            <h2>Attach leed</h2>
+            <span *ngIf="hasLeadAttachmentFaild">
+              Provide an existing username
+            </span>
+            <mat-form-field>
+              <label for="power">Username </label>
+              <input matInput [(ngModel)]="leadUsernameToAttach" name="name">
+            </mat-form-field>
+            <button mat-raised-button color="primary" [disabled]="!leadForm.form.valid">Submit</button>
+          </form>
+        </mat-card-content>
+      </mat-card><!-- leads form -->
+      <mat-card>
+        <mat-card-content>
+          <table mat-table [dataSource]="leadTableDatasource" class="mat-elevation-z8 demo-table">
+            <ng-container matColumnDef="demo-id">
+              <th mat-header-cell *matHeaderCellDef> Id </th>
+              <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+            </ng-container>
+            <ng-container matColumnDef="demo-name">
+              <th mat-header-cell *matHeaderCellDef> Name </th>
+              <td mat-cell *matCellDef="let element">
+                <button mat-raised-button class="mat-button" color="primary"
+                  routerLink="{{'/admin/users/profile/'+element.id}}">{{element.username}}
+                </button>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="managment">
+              <th mat-header-cell *matHeaderCellDef> Managment </th>
+              <td mat-cell *matCellDef="let element">
+                <button dimat-raised-button class="mat-button" color="primary"
+                  (click)="detachUser(element.id)">Delete</button>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedUserColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedUserColumns;"></tr>
+          </table>
+        </mat-card-content>
+      </mat-card><!-- leads table -->
+    </div>
+  </div>
+</div>
